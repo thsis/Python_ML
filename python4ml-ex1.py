@@ -30,7 +30,7 @@ file=open('health-test.txt','r')
 my_list_of_tuple=[]
 for line in file:
     tmp1=line.strip()
-    tmp2=tmp.split(',')
+    tmp2=tmp1.split(',')
     t= (tmp2[0], int(tmp2[1]),tmp2[2])
     my_list_of_tuple.append(t)
 print ( my_list_of_tuple)
