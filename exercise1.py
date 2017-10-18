@@ -89,11 +89,66 @@ print("\n----------------------------------------------------\nExercise 6:")
 class NearestMeanClassifier(object):
     """Training Method that takes a dataset as input and produces two internal
     vectors corresponding to the mean of each class."""
-    def __init__(self):
-        classes = []
-        for line in dataset:
-            if line[1] not in classes:
-                classes.append(line[1])
-        self.classes = classes
     def train(self, dataset):
+        # Data preparation
+        self.classes = []
+        data = []
+        for line in dataset:
+            if line[1] not in self.classes:
+                self.classes.append(line[1])
+
+            X, y = line
+            smoker, age, diet = X
+            numeric_tuple = ((int(smoker == 'yes'),
+                              int(age),
+                              int(diet == 'poor')), y)
+            data.append(numeric_tuple)
+
+        self.class_averages = []
+
         for classes in self.classes:
+            dict_content = [tuples for tuples in data if tuples[1] == classes]
+            smoker_list = [tuples[0][0] for tuples in data if tuples[1] == classes]
+            age_list = [tuples[0][1] for tuples in data if tuples[1] == classes]
+            diet_list = [tuples[0][2] for tuples in data if tuples[1] == classes]
+
+            mean_tuple = ((float(sum(smoker_list)) / len(smoker_list),
+                           float(sum(age_list)) / len(age_list),
+                           float(sum(diet_list)) / len(diet_list)), classes)
+            self.class_averages.append(mean_tuple)
+
+    def predict(self, dataset):
+        # Define Distance-Metric
+        def d(a, b):
+            return (a[0] - b[0])**2 + ((a[1] - b[1])/50)**2 + (a[2] - b[2])**2
+
+        def get_nearest_neighbor(target, train_set):
+            dist = [d(target, x[0]) for x in train_set]
+            return train_set[dist.index(min(dist))][1]
+
+
+        self.predictions = []
+        for line in dataset:
+            smoker, age, diet = line
+            line_numeric = (int(smoker == 'yes'),
+                            int(age),
+                            int(diet == 'poor'))
+
+            prediction = get_nearest_neighbor(line_numeric, self.class_averages)
+            self.predictions.append(prediction)
+
+
+avg_neighbor = NearestMeanClassifier()
+avg_neighbor.train(health_train)
+avg_neighbor.predict(health_test)
+
+health_avg_neighbor = avg_neighbor.predictions
+
+same_prediction_ind = []
+for i in range(len(health_test)):
+    is_same = health_tree[i] == health_neighbor[i] == health_avg_neighbor[i]
+    same_prediction_ind.append(is_same)
+
+print("Coinciding Predictions:")
+for line in same_prediction_ind:
+    print(health_test[line])
