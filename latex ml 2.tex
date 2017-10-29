@@ -1,0 +1,185 @@
+\documentclass{article} 
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{nicefrac}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{} 
+\chead{} 
+\lhead{\bfseries Group: SHPZKN}
+\rhead{\bfseries ML Homework 2} 
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Var}{\mathrm{Var}}
+
+
+\begin{document}
+\section{Problem 1}
+%%%a----------------------------------------------------------------------------------------------------------------------------
+a)\\\
+we need to show the independence of $x$ and $y$, we've known the joint density of $x$ and $y$. we can compute the marginal density of $x$ ($p(x)$) and $y$ ($p(y)$). 
+if $p(x)\times p(y) = p(x, y)$, then we could say that, $x$, $y$ are independent.\\
+The formula of joint density of $x$, $y$:
+$$p(x,y)=\lambda \eta e^{-\lambda x - \eta y}, \qquad  \lambda, \eta > 0, \qquad x, y\in \R^2_+$$
+%----------------------------------------------------------------------------------------------------------------------------
+The marginal density of x:
+\begin{flalign*}
+\begin{split}
+p(x)&= \int\limits_{0}^{\infty} p(x,y) dy= \int \limits_{0}^{\infty} \lambda \eta e^{-\lambda x -  \eta y}dy\\
+&=\lambda \eta e^{-\lambda x} \int\limits_{0}^{\infty} e^ {-  \eta y}dy\\
+&=\lambda \eta e^{-\lambda x} \int\limits_{0}^{\infty}-\frac{1}{\eta} e^ {-  \eta y}d(-\eta y)\\
+&=-\lambda e^{-\lambda x}  \times e^ {-  \eta y}\biggr\rvert _0^\infty\\
+&=\lambda e^{-\lambda x}
+\end{split}&
+\end{flalign*}
+%----------------------------------------------------------------------------------------------------------------------------------------
+The marginal density of y:
+\begin{flalign*}
+\begin{split}
+p(y)&= \int\limits_{0}^{\infty} p(x,y) dx= \int \limits_{0}^{\infty} \lambda \eta e^{-\lambda x -  \eta y}dx\\
+&= \lambda \eta e^{-  \eta y}\int \limits_{0}^{\infty}e^{-\lambda x} dx\\
+&= \lambda \eta e^{-  \eta y}\int \limits_{0}^{\infty}-\frac{1}{\lambda}e^{-\lambda x} d(-\lambda x)\\
+&=-\eta e^{-  \eta y}\times e^{-\lambda x}\biggr\rvert _0^\infty\\
+&=\eta e^{-  \eta y}
+\end{split}&
+\end{flalign*}
+The product of marginal density of x and y:
+$$p(x)\times p(y) = \lambda e^{-\lambda x} \times  \eta e^{-  \eta y} = \lambda \eta e^{-\lambda x - \eta y} = p(x,y)$$
+Proved, $x$, $y$ are independent.\\
+\\
+\\
+%%%b-------------------------------------------------------------------------------------------------------------------------------------
+b)\\\
+We know that $x_i$ and $y_i$ in D are independent, we also know the joint density function of $x$, $y$. Hence, the ML function is on below.
+%----------------------------------------------------------------------------------------------------------------------------------------
+
+\begin{flalign*}
+\begin{split}
+L(\lambda) &= \prod_{i=1}^{N} p((x_i,y_i)|\lambda) = \prod_{i=1}^{N} \lambda \eta e^{-\lambda x_i - \eta y_i} \\
+l(\lambda)& = \ln  L(\lambda) = \sum\limits_{i= 1}^{N} \ln \left( \lambda \eta e^{-\lambda x_i - \eta y_i}\right)\\
+&= \sum\limits_{i= 1}^{N} [\ln \lambda -\lambda x_i + \ln \eta -\eta y_i]\\
+&=N(\ln\lambda + \ln \eta) + \sum\limits_{i= 1}^{N} (-\lambda x_i  -\eta y_i)\\
+\frac{\partial l(\lambda)}{\partial \lambda}& = \frac{N}{\lambda} - \sum\limits_{i= 1}^{N} x_i = 0\\
+\hat{\lambda} &=\frac{N}{\sum\limits_{i= 1}^{N} x_i }
+\end{split}&
+\end{flalign*}
+
+%----------------------------------------------------------------------------------------------------------------------------------------
+
+But we need to check whether second derivative is smaller than 0, if yes, we could conclude that $\hat{\lambda}$ is ML estimator.
+\begin{flalign*}
+\begin{split}
+\frac{\partial l(\lambda)}{\partial \lambda ^2}& = -\frac{N}{\lambda^2} < 0
+\end{split}&
+\end{flalign*}
+Therefore, maximum likelihood estimator of the parameter $\lambda$ is $\hat{\lambda} =\nicefrac{N}{\sum\limits_{i= 1}^{N} x_i }$\\
+\clearpage
+%%%c------------------------------------------------------------------------------------------------------------------------------------
+c)\\\
+under the constraint $\eta = 1/\lambda$, what is the maximum likelihood estimator of the parameter $\lambda$?\\
+The process is similar with the upper part.
+\begin{flalign*}
+\begin{split}
+l(\lambda)& = \ln  L(\lambda) = \sum\limits_{i= 1}^{N} \ln \left( e^{-\lambda x_i -  \frac{1}{\lambda}y_i}\right)\\
+&= \sum\limits_{i= 1}^{N} (-\lambda x_i -\frac{1}{\lambda} y_i)\\
+\frac{\partial l(\lambda)}{\partial \lambda}& =- \sum_{i= 1}^{N} x_i + \frac{\sum\limits_{i= 1}^{N} y_i }{\lambda^2} = 0\\
+\lambda^2&=\frac{\sum\limits_{i= 1}^{N} y_i}{\sum\limits_{i= 1}^{N} x_i }\\
+\\\
+\hat{\lambda} &=\sqrt{\nicefrac{\sum\limits_{i= 1}^{N} y_i}{\sum\limits_{i= 1}^{N} x_i }}
+\end{split}&
+\end{flalign*}
+check the second derivative:
+$$\frac{\partial l(\lambda)}{\partial \lambda ^2} = -2\nicefrac{\sum\limits_{i= 1}^{N} y_i}{\lambda^3} < 0$$
+Therefore, maximum likelihood estimator of the parameter $\lambda$ is $\hat{\lambda} =\sqrt{\nicefrac{\sum\limits_{i= 1}^{N} y_i}{\sum\limits_{i= 1}^{N} x_i }}$
+\clearpage
+%%%d------------------------------------------------------------------------------------------------------------------------------------
+d)\\\
+under the constraint $\eta = 1 - \lambda$
+\begin{flalign*}
+\begin{split}
+l(\lambda) = \ln  L(\lambda) = N \ln[\lambda(1-\lambda)]+\sum\limits_{i= 1}^{N} \ln \left( e^{-\lambda x_i -  \frac{1}{\lambda}y_i}\right)\\
+=N \ln(\lambda)+N\ln(1-\lambda)+\sum\limits_{i= 1}^{N} (-\lambda x_i+(1-\lambda) y_i)\\
+\frac{\partial l(\lambda)}{\partial \lambda} = \frac{N}{\lambda}-\frac{N}{1-\lambda}- \sum_{i= 1}^{N} x_i + \sum\limits_{i= 1}^{N} y_i  = 0\\
+\lambda^2(\sum\limits_{i= 1}^{N} x_i-\sum\limits_{i= 1}^{N} y_i)+\lambda(\sum\limits_{i= 1}^{N} y_i-\sum\limits_{i= 1}^{N} x_i-2N)+N=0\\
+\hat{\lambda} = \frac{(\sum\limits_{i= 1}^{N} y_i-\sum\limits_{i= 1}^{N} x_i-2N)\pm \sqrt{(\sum\limits_{i= 1}^{N} y_i-\sum\limits_{i= 1}^{N} x_i)^2+4N}}{2(\sum\limits_{i= 1}^{N} x_i-\sum\limits_{i= 1}^{N} y_i)}	
+\end{split}&
+\end{flalign*}
+check the second derivative:
+$$\hat{\lambda}= -\frac{1}{2}+\frac{2N\pm \sqrt{(\sum\limits_{i= 1}^{N} y_i-\sum\limits_{i= 1}^{N} x_i)^2+4N}}{2(\sum\limits_{i= 1}^{N} x_i-\sum\limits_{i= 1}^{N} y_i)} < -\frac{1}{2}$$
+$$\frac{\partial l(\lambda)}{\partial \lambda ^2}= -\frac{N}{\lambda^2}+\frac{N}{(1-\lambda)^2}< 0$$
+Therefore, maximum likelihood estimator of the parameter $\lambda$ is $\hat{\lambda}$
+\section{Problem 2}
+%%%a----------------------------------------------------------------------------------------------------------------------------
+a)\\\
+ The linear regression model $y=\mathbf{x}^\intercal \mathbf{\beta} + \epsilon$ and $\epsilon \sim \mathcal{N}(0,\sigma^{2})\ $
+\begin{flalign*}
+\begin{split}
+L(\beta) &= \max_\beta\prod_{i=1}^{N} Pr(y=y_i|x=x_i;\beta)=\max_\beta\prod_{i=1}^{N}(y -\mathbf{x}^\intercal \mathbf{\beta})\\
+&= \max_\beta\prod_{i=1}^{N} \frac{1}{\sqrt{2\pi}}e^-\nicefrac{(y -\mathbf{x}^\intercal \mathbf{\beta)}^2}{2}\\
+l(\beta) &= \ln\frac{N}{\sqrt{2\pi}} -\frac{(y -\mathbf{x}^\intercal \mathbf{\beta)}^2}{2}\\
+&=\ln\frac{N}{\sqrt{2\pi}} -\frac{ \mathbf{y}^\intercal \mathbf{y} + \mathbf{x}^\intercal \mathbf{x}\beta^2-2\mathbf{x}^\intercal \mathbf{y}\beta}{2}
+\end{split}&
+\end{flalign*}
+
+\begin{flalign*}
+\begin{split}
+\frac{\partial l(\beta)}{\partial \beta} &= \mathbf{x}^\intercal \mathbf{y}-\mathbf{x}^\intercal \mathbf{x}\beta =0\\
+\hat{\beta} &= (\mathbf{x}^\intercal \mathbf{x})^{-1} \mathbf{x}^\intercal \mathbf{y}\\
+\mathop{\mathbb{E}}(\hat{\beta})&=(\mathbf{x}^\intercal \mathbf{x})^{-1} \mathbf{x}^\intercal \mathbf{\mathop{\mathbb{E}(y)}} 
+= (\mathbf{x}^\intercal \mathbf{x})^{-1} \mathbf{x}^\intercal \mathbf{\mathop{\mathbb{E}(\mathbf{x}\mathbf{\beta}}} + \epsilon) \\
+&= (\mathbf{x}^\intercal \mathbf{x})^{-1} \mathbf{x}^\intercal (\mathbf{x}\mathbf{\beta}+\mathop{\mathbb{E}}(\epsilon))\\
+&=(\mathbf{x}^\intercal \mathbf{x})^{-1} \mathbf{x}^\intercal \mathbf{x}\mathbf{\beta} \qquad [Ps: \mathop{\mathbb{E}}(\epsilon) = 0]\\
+&=\beta \\
+\Var{(\hat{\beta)}} &= \Var{((\mathbf{x}^\intercal \mathbf{x})^{-1} \mathbf{x}^\intercal \mathbf{y})}
+= (\mathbf{x}^\intercal \mathbf{x})^{-1} \mathbf{x}^\intercal\Var{( \mathbf{y})}\mathbf{x}(\mathbf{x}^\intercal \mathbf{x})^{-1}\\
+&=(\mathbf{x}^\intercal \mathbf{x})^{-1} \mathbf{x}^\intercal\mathbf{x}(\mathbf{x}^\intercal \mathbf{x})^{-1}\Var{( \mathbf{y})}\\
+&=(\mathbf{x}^\intercal \mathbf{x})^{-1}\Var{( \mathbf{y})} \qquad 
+[Ps: \Var{( \mathbf{y})} = \Var{( \mathbf{\epsilon})}, \mathbf{x}, \beta \ \text{are constant}]\\
+&=(\mathbf{x}^\intercal \mathbf{x})^{-1} \sigma ^2
+\end{split}&
+\end{flalign*}
+\\
+\\
+%%%b----------------------------------------------------------------------------------------------------------------------------
+b)\\\
+If we know the full distribution of $\hat{\beta}$ with known mean and covariance matrix from the sample dataset, we can conduct Statistical hypothesis testing for $\beta$ in the 
+population. For example, we can do Significance Test for $\beta$ under certain Significance level and calculate the P-Value of each entrance in $\beta$. Then we can get the test result for whether $\beta$ is significant, so that we can reduce the data dimension and focus on the variables which bring more valuable information.
+\\
+\\
+%%%c----------------------------------------------------------------------------------------------------------------------------
+c)\\\
+We know $\hat{\beta}$ is normally distributed. and $\hat{y_*}$ is a linear function made of $\hat{\beta}$ and $x_*$, therefore, $\hat{y_*}$ is also normally distributed. 
+\begin{flalign*}
+\begin{split}
+\mathop{\mathbb{E}}(\hat{y_*})&= \mathop{\mathbb{E}}(\mathbf{x_*}^\intercal \mathbf{\hat{\beta}})
+=\mathbf{x_*}^\intercal \mathop{\mathbb{E}(\hat{\beta})}
+= \mathbf{x_*}^\intercal \mathbf{\beta}\\
+\Var{(\hat{y_*})} &= \Var{(\mathbf{x_*}^\intercal \mathbf{\hat{\beta}})} 
+= \mathbf{x_*} \Var{\hat{\beta}} \mathbf{x_*}^\intercal 
+=\mathbf{x_*} (\mathbf{x}^\intercal \mathbf{x})^{-1}\mathbf{x_*}^\intercal  \sigma ^2
+\end{split}&
+\end{flalign*}
+
+Hence, $\hat{y_*} \sim \mathcal{N}(\mathbf{x_*}^\intercal \mathbf{\beta},\mathbf{x_*} (\mathbf{x}^\intercal \mathbf{x})^{-1}\mathbf{x_*}^\intercal  \sigma ^2)\ $
+\\
+\\
+d)\\\
+Knowing the distribution of the predictions of a model may come in handy when we want to evaluate new predictions that we make. Let us take predicting student performance in a math class as an example and assume that $\hat{y_*}$ is normally distributed. We might be interested to offer additional assistance to students who are struggling and more advanced materials for students who are doing well. Knowing the distribution of our predictions can help us do that since we can compare how a prediction fairs with regard to the overall distribution. Furthermore, if this particular model were to be used as input for another model the information we gain could be applied as a weight. Thus, knowing the distribution of $\hat{y_*}$ can be beneficial to put new predictions into better context.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
