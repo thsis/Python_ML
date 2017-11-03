@@ -1,0 +1,101 @@
+\documentclass{article} 
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{nicefrac}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{} 
+\chead{} 
+\lhead{\bfseries Group: SHPZKN}
+\rhead{\bfseries ML Homework 3}
+
+\begin{document}
+
+\section{Problem 1}
+%%%a-------------------------------------------------------------------------------------------------------------------------
+a)\\\
+\begin{flalign*}
+\begin{split}
+\emph{D} &= (x_1, x_2, x_3, x_4, x_5, x_6, x_7) = (head, head, tail, tail, head, head, head)\\
+&P(\emph{D}|\theta) = \prod_{i=1}^{7} P(x_i|\theta) = \theta^5(1-\theta)^2 = \theta^5 + \theta^7-2\theta^6
+\end{split}&
+\end{flalign*}
+Therefore, we could say that likelihood function $P(\emph{D}|\theta)$depends on the parameter $\theta$.
+\\
+\\
+%%%b-------------------------------------------------------------------------------------------------------------------------
+b)
+\begin{flalign*}
+\begin{split}
+l(\theta) &= \ln(P(\emph{D}|\theta))= 5\ln {\theta }+ 2\ln{(1-\theta)}\\
+\frac{\partial l(\theta)}{\partial \theta}& = \frac{5}{\theta} - \frac{2}{1-\theta} \stackrel{!}{=}0\\
+%5(1-\theta) &= 2\theta\\
+%7\theta &= 5\\
+\hat{\theta}& = \frac{5}{7}
+\end{split}&
+\end{flalign*}
+Check the second derivative, plug $\hat{\theta}$ in the below formular,
+$$\frac{\partial l(\theta)}{\partial \theta ^2} = -\frac{5}{\theta^2} - \frac{2}{(1-\theta)^2}$$
+$$\frac{\partial }{\partial \theta ^2}l(\frac{5}{7}) < 0$$
+$$P(x_8 = head, x_9 = head|\hat{\theta}) = \hat{\theta}^2 = \frac{25}{49}$$
+\\
+\\
+%%%c-------------------------------------------------------------------------------------------------------------------------
+c)
+\begin{flalign*}
+\begin{split}
+P(\theta|\emph{D}) &= \frac{P(\emph{D}|\theta)P(\theta)}{P(\emph{D})} = \frac{P(\emph{D}|\theta)P(\theta)}{\int_{0}^{1}P(\emph{D}|\theta)P(\theta)d\theta}\\
+\int_{0}^{1}P(\emph{D}|\theta)P(\theta)d\theta &= \int_{0}^{1} \theta^5(1-\theta)^2 = \int_{0}^{1}\theta^5 + \theta^7-2\theta^6 d\theta\\
+&= \frac{1}{6}\theta^6+\frac{1}{8}\theta^8-\frac{2}{7}\theta^7\biggr\rvert _0^1 = \frac{1}{168}\\
+\end{split}&
+\end{flalign*}
+\[
+    P(\theta|\emph{D})= 
+\begin{cases}
+    (\theta^5 + \theta^7-2\theta^6)\times168,& \text{if } 0 \leq \theta \leq 1\\
+    0,              & \text{else}
+\end{cases}
+\]
+\begin{flalign*}
+\begin{split}
+\int P(x_8 = head, x_9 = head | \theta)p(\theta|\emph{D}) d\theta &=  \int_{0}^{1} 168\theta^2(\theta^5 + \theta^7-2\theta^6) d\theta\\
+&=168(\frac{1}{8}\theta^8 + \frac{1}{10}\theta^{10}-\frac{2}{9}\theta^7)\biggr\rvert _0^1 = \frac{7}{15}
+\end{split}&
+\end{flalign*}
+
+\section{Problem 2}
+%%%a-------------------------------------------------------------------------------------------------------------------------
+a) Information of question on below,
+\begin{flalign*}
+\begin{split}
+\frac{1}{\sigma_n^2} &= \frac{n}{\sigma^2} + \frac{1}{\sigma_0^2}\\
+\sigma_n^2 &= \frac{\sigma^2\sigma_0^2}{n\sigma_0^2+\sigma^2} \leq \frac{\sigma^2\sigma_0^2}{n\sigma_0^2} = \frac{\sigma^2}{n}\\
+\sigma_n^2 &= \frac{\sigma^2\sigma_0^2}{n\sigma_0^2+\sigma^2} \leq \frac{\sigma^2\sigma_0^2}{\sigma_0^2} = \sigma_0^2\\
+\sigma_n^2 & \leq  \frac{\sigma^2}{n} \qquad \text{and} \qquad \sigma_n^2 \leq \sigma_0^2\\
+\sigma_n^2 &\leq min\left(\frac{\sigma^2}{n}, \sigma_0^2\right)
+\end{split}&
+\end{flalign*}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document} 
