@@ -75,12 +75,31 @@ a) Information of question on below,
 \sigma_n^2 &\leq min\left(\frac{\sigma^2}{n}, \sigma_0^2\right)
 \end{split}&
 \end{flalign*}
+%%%b-------------------------------------------------------------------------------------------------------------------------
+\\
+b)
+\begin{flalign*}
+\begin{split}
+\frac{\mu_n}{\sigma_n^2}& = \frac{n}{\sigma^2}\hat{\mu}_n+\frac{\mu_0}{\sigma_0^2}\\
+\mu_n& = \left( \frac{n}{\sigma^2}\hat{\mu}_n+\frac{\mu_0}{\sigma_0^2} \right) \times \sigma_n^2\\
+\mu_n& =  \left( \frac{n}{\sigma^2}\hat{\mu}_n+\frac{\mu_0}{\sigma_0^2} \right) \times  \frac{\sigma^2\sigma_0^2}{n\sigma_0^2+\sigma^2} \\
+\mu_n&= \hat{\mu}_n \frac{n\sigma_0^2}{n\sigma_0^2+\sigma^2} + \mu_0\frac{\sigma^2}{n\sigma_0^2+\sigma^2}\\
+\mu_n&= \hat{\mu}_n \frac{n\sigma_0^2}{n\sigma_0^2+\sigma^2} +  \mu_0\frac{\sigma^2 +n\sigma_0^2-n\sigma_0^2}{n\sigma_0^2+\sigma^2}\\
+\mu_n&= \hat{\mu}_n \frac{n\sigma_0^2}{n\sigma_0^2+\sigma^2} +  \mu_0 \left(\frac{\sigma^2 +n\sigma_0^2}{n\sigma_0^2+\sigma^2}-\frac{n\sigma_0^2}{n\sigma_0^2+\sigma^2}\right)\\
+\mu_n&= \hat{\mu}_n\lambda + \mu_0(1-\lambda)   \qquad \text{where} \qquad \lambda = \frac{n\sigma_0^2}{n\sigma_0^2+\sigma^2} \in (1,0)
+\end{split}&
+\end{flalign*}
+We can interpret the result as $\mu_n$ is a weighted sum of the sample mean $\hat{\mu}_n$ and the mean of the prior distribution
+$\mu_0$. We can consider two cases.
+\\
+In the first case, we assume $\hat{\mu}_n \geq \mu_0$, then:
+$$\mu_n = \hat{\mu}_n\lambda + \mu_0(1-\lambda) \geq \mu_0\lambda + \mu_0(1-\lambda) = \mu_0= min(\hat{\mu}_n, \mu_0)$$
+$$\mu_n = \hat{\mu}_n\lambda + \mu_0(1-\lambda) \leq \hat{\mu}_n\lambda +\hat{\mu}_n(1-\lambda)= \hat{\mu}_n = max(\hat{\mu}_n, \mu_0)$$
 
-
-
-
-
-
+In the second case, we assume that $\hat{\mu}_n \leq \mu_0$, then:
+$$\mu_n = \hat{\mu}_n\lambda + \mu_0(1-\lambda) \leq \mu_0\lambda + \mu_0(1-\lambda) = \mu_0= max(\hat{\mu}_n, \mu_0)$$
+$$\mu_n = \hat{\mu}_n\lambda + \mu_0(1-\lambda) \geq \hat{\mu}_n\lambda +\hat{\mu}_n(1-\lambda)= \hat{\mu}_n = min(\hat{\mu}_n, \mu_0)$$
+Proved!
 
 
 
