@@ -14,6 +14,93 @@
 
 \begin{document}
 \section{Problem 1}
+a)\\
+Knowing the general formula for calculating correlation given below, we want to apply two vector to $X$ and $Y$,
+find out the maximum value of correlation coefficient.
+For simplification we set $X=\mathcal{X}$ and $Y=\mathcal{Y}$. 
+\\Now we define $\tilde{X}=w_xX$ and $\tilde{Y}=w_yY$
+\begin{flalign*}
+\begin{split}
+Corr(X,Y) &= \frac{Cov(X,Y)}{\sqrt{ Var(X)Var(Y)}}\\
+&=\frac{Cov(\tilde{X},\tilde{Y})}{\sqrt{Var(\tilde{X})Var(\tilde{Y})}}\\
+&=\frac{w_x ^\intercal Cov(X,Y) w_y}{\sqrt{w_x^\intercal Var(X) w_xw_y^\intercal Var(Y) w_y}}
+\end{split}&
+\end{flalign*}
+%%%% b----------------------------------------------------------------------------------------------------------------------------------
+b)\\
+We change above answer st. $Cov(X,Y)=\Sigma_{xy}$ ,$Var(X)=\Sigma_{xx}$  and $Var(Y)=\Sigma_{yy}$.
+\begin{flalign*}
+\begin{split}
+\rho = \frac{w_x ^\intercal \Sigma_{xy} w_y}{\sqrt{w_x^\intercal \Sigma_{xx} w_xw_y^\intercal \Sigma_{yy} w_y}}\\
+\end{split}&
+\end{flalign*}
+In order to maximaze the correlation (denominator has no influence on the maximalization, therefore we choose variances) we set:\\
+\begin{flalign*}
+\begin{split}
+max \rho(w_x,w_y)\\
+w_x^\intercal \Sigma_xx w_x =1
+&\\w_y^\intercal \Sigma_yy w_y = 1
+\end{split}&
+\end{flalign*}
+considering the constraints from a, we get:
+\begin{flalign*}
+\begin{split}
+max w_x^\intercal\Sigma_{xy}w_y\\
+w_x^\intercal \Sigma_xx w_x =1
+&\\w_y^\intercal \Sigma_yy w_y = 1
+\end{split}&
+\end{flalign*}
+ We formulate the Lagrange function and calculate the derivatives wrt. $w_x$ and $w_y$:
+\begin{flalign*}
+\begin{split}
+\mathcal{L}(w_x,w_y,\lambda, \mu)=w_x^\intercal\Sigma_{xy}w_y - \frac{1}{2}\lambda(w_x^\intercal\Sigma_{xx}w_x-1)- \frac{1}{2}\mu(w_y^\intercal\Sigma_{yy}w_y-1)\\
+\frac{\partial{\mathcal{L}}}{\partial{w_x}}=\Sigma_{xy}w_y-\lambda\Sigma_{xx}w_x\stackrel{!}{=}0\\
+\frac{\partial{\mathcal{L}}}{\partial{w_y}}=\Sigma_{xy}w_x-\mu\Sigma_{yy}w_y\stackrel{!}{=}0\\
+\end{split}&
+\end{flalign*}
+Now we multiply $w_x^\intercal$ and $w_y^\intercal$:
+\begin{flalign*}
+\begin{split}
+w_x^\intercal\Sigma_{xy}w_y-\lambda{w_x^\intercal\Sigma_{xx}w_x}=w_x^\intercal\Sigma_{xy}w_y-\lambda=0  \leftrightarrow  \lambda=w_x^\intercal\Sigma_{xy}w_y\\
+w_y^\intercal\Sigma_{xy}w_x-\mu{w_y^\intercal\Sigma_{yy}w_y}=w_y^\intercal\Sigma_{xy}w_x-\mu=0  \leftrightarrow  \mu=w_y^\intercal\Sigma_{xy}w_x\\
+\end{split}&
+\end{flalign*}
+Then it follows under the constraints:
+\begin{flalign*}
+\begin{split}
+\lambda=\mu=w_x^\intercal\Sigma_{xy}w_y=\rho(w_x,w_y)
+\end{split}&
+\end{flalign*}
+Since $\lambda=\mu$,we are able to transform derivatives:
+\begin{flalign*}
+\begin{split}
+\Sigma_{xy}w_y-\lambda{\Sigma_{xx}w_x}=0	(*)\\
+\Sigma_{xy}w_x-\lambda{\Sigma_{yy}w_y}=0	 (**)\\
+\end{split}&
+\end{flalign*}
+From (**) we get further:
+\begin{flalign*}
+\begin{split}
+\Sigma_{xy}w_x=\lambda{\Sigma_{yy}w_y} \leftrightarrow w_y=\frac{1}{\lambda}\Sigma_{yy}^{-1}\Sigma_{xy}w_x
+\end{split}&
+\end{flalign*}
+When we plug $w_y$ into (*), we will receive:
+\begin{flalign*}
+\begin{split}
+\frac{1}{\lambda}\Sigma_{xy}\Sigma_{yy}^{-1}\Sigma_{xy}w_x - \lambda\Sigma_{xx}w_x=0\\
+\leftrightarrow \lambda^2\Sigma_{xx}w_x=\Sigma_{xy}\Sigma_{yy}^{-1}\Sigma_{xy}w_x\\
+\leftrightarrow \lambda^2{w_x}=\Sigma_{xx}^{-1}\Sigma_{xy}\Sigma_{yy}^{-1}\Sigma_{xy}w_x\\
+\end{split}&
+\end{flalign*}
+Now we deal with eigenvalue problem:$Aw_x=\tilde{\lambda}w_x$, where $\lambda^2=\tilde{\lambda}$ and $A=\Sigma_{xx}^{-1}\Sigma_{xy}\Sigma_{yy}^{-1}\Sigma_{xy}$.\\ To solve $w_y$ it is needed to proceed analogously: $Bw_y=\tilde{\lambda}w_y$, where $B=\Sigma_{yy}^{-1}\Sigma_{xy}\Sigma_{xx}^{-1}\Sigma_{xy}$.\\
+\\
+c)\\
+From b) we know that $\lambda^2=\tilde{\lambda}$, which solves the eigenvalues. Since we know that under the constraint $\lambda=w_x^\intercal\Sigma_{xy}w_y=\rho(w_x,w_y)$ we obtain the solution for correlation coefficient at the optimum:
+\begin{flalign*}
+\begin{split}
+\rho(w_x,w_y)=\lambda=\sqrt{\tilde{\lambda}}
+\end{split}&
+\end{flalign*}
 %%% a--------------------------------------------------------------------------------------------------------------------------------
 %a)\\
 %We know the general formula on the below, and we want to apply two vector to $X$ and $Y$,
