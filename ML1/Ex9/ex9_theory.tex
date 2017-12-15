@@ -1,0 +1,148 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bbm}
+\usepackage{mathtools}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\setlength{\headheight}{15pt}
+\lhead{\bfseries Group: SHPZKN}
+\rhead{\bfseries ML Homework 9}
+
+\newcommand{\mysum}[2]{\sum_{#1 = 1}^{n}  #2}
+\newcommand{\kersum}[1]{\sum_{#1 = 1}^{n}  \alpha_{#1} y_{#1} x_{#1}}
+\newcommand{\dksum}[2]{\sum_{#1=1}^{n}  \sum_{#2=1}^{n}  
+                                              \alpha_{#1}\alpha_{#2}
+                                              y_{#1} y_{#2} 
+                                              x_{#1}^{T} x_{#2}}
+
+\newcommand{\matcell}[2]{y_{#1} y_{#2} x_{#1}^T x_{#2}}
+\begin{document}
+\section*{Problem 1}
+
+\begin{equation}
+min {\lVert w\rVert}^2 \; s.t.: \;  y_i\left(w^Tx_i + \theta\right)  \geq 1, \forall i \in \{1,\; ...,\; n\}
+\end{equation}
+
+\subsection*{a)}
+Formulate the Lagrangian:
+\begin{equation}
+\label{primal}
+\Lambda\left(w, \theta, \alpha\right)=\frac{1}{2}{\lVert w\rVert}^2 + 
+    \mysum{i}{\alpha_i \left[y_i\left(w^Tx_i + \theta\right) - 1\right]}
+\end{equation}
+
+\subsection*{b)}
+Partial Derivatives
+
+\begin{equation}
+\label{prt1}
+\frac{\Lambda\left(w, \theta, \alpha\right)}{\partial w} 
+    = w + \mysum{i}{\alpha_i y_i x_i} \stackrel{!}{=} 0 
+    \Rightarrow w = - \kersum{i}
+\end{equation}
+
+\begin{equation}
+\label{prt2}
+\frac{\Lambda\left(w, \theta, \alpha\right)}{\partial \theta} 
+    = \mysum{i}{\alpha_i y_i} \stackrel{!}{=} 0 
+\end{equation}
+
+Substitute the results from the partial derivatives \eqref{prt1} and \eqref{prt2} into the primal
+\eqref{primal} to get the dual problem:
+\begin{equation}
+\label{dual_ini}
+\begin{split}
+\Lambda\left(w, \theta, \alpha\right) 
+& =\frac{1}{2}{\lVert w\rVert}^2 + 
+        \mysum{i}{\alpha_i \left[y_i\left(w^Tx_i + \theta\right) - 1\right]} \\
+&= \frac{1}{2} {\lVert \kersum{i} \rVert}^2 
+       - \mysum{k}{\alpha_k \left[y_k\left({\left(\kersum{l}\right)}^T x_k + \theta\right)-1 \right]} \\
+&= \frac{1}{2} \dksum{i}{j} - \dksum{k}{l} + \sum_{k}^{n} \alpha_k y_k \theta 
+      + \sum_{k}^{n} \alpha_k \\
+&= -\frac{1}{2} \dksum{i}{j} + \theta \underbrace{\sum_k^n \alpha_k y_k}_{=0} 
+      + \sum_{k}^{n} \alpha_k \\
+&= - \frac{1}{2} \dksum{i}{j} + \sum_k^n \alpha_k \stackrel{!}{=} L\left(\alpha\right)
+\end{split}
+\end{equation}
+The dual problem can therefore be expressed as:
+\begin{equation}
+\label{dual_proper}
+\begin{split}
+max  - \frac{1}{2} \dksum{i}{j} + \sum_k^n \alpha_k \\
+s.t. \;  \kersum{i} \stackrel{!}{=} 0\; and \; \alpha_i \geq 0 \; \forall i \in \{1,\; ...,\; n\}
+\end{split}
+\end{equation}
+Which is now a standard optimization problem in $\alpha$. 
+
+
+\subsection*{c)}
+Primal - kernelized:
+\begin{equation}
+\label{pri_ker}
+\begin{split}
+& min\;\frac{1}{2}{\lVert w\rVert}^2 + 
+    \mysum{i}{\alpha_i \left[y_i\left(w^Tx_i + \theta\right) - 1\right]} \\
+&= min \; k\left(w^Tw\right) + 
+    \mysum{i}{\alpha_i \left[y_i\left(w^Tx_i + \theta\right) - 1\right]}
+\end{split}
+\end{equation}
+Dual - kernelized:
+\begin{equation}
+\begin{split}
+& max\; - \frac{1}{2} \dksum{i}{j} + \sum_k^n \alpha_k \\
+& max\; - \frac{1}{2} k\left(w^Tw\right) + \sum_k^n \alpha_k
+\end{split}
+\end{equation}
+
+\section*{Problem 2}
+Reformulate the dual problem \eqref{dual_proper}
+\begin{equation}
+\begin{split}
+min\; \frac{1}{2} \dksum{i}{j} - \sum_k^n \alpha_k \\
+s.t. \;  \kersum{i} \stackrel{!}{=} 0\; and \; \alpha_i \geq 0 \; \forall i \in \{1,\; ...,\; n\}
+\end{split}
+\end{equation}
+\newpage
+According to this we can formulate 
+\begin{enumerate}
+\item{the quadratic form as:}
+\begin{equation}
+\begin{split}
+x^T P x 
+& \Rightarrow \dksum{i}{j} \\ 
+&= \alpha^T  
+    \begin{bmatrix}
+        \matcell{1}{1} & \dots       & \matcell{1}{n} \\
+        \vdots               & \ddots     & \vdots \\
+        \matcell{n}{1} & \dots       & \matcell{n}{n}
+\end{bmatrix} \alpha \\
+&= \alpha^T \left[yy^T * XX^T X\right] \alpha \\
+\end{split}
+\end{equation}
+where $*$ denotes element-wise multiplication.
+\item{the scalar-product as:}
+\begin{equation}
+q^T x \Rightarrow - \sum_k^n \alpha_k = - \mathbbm{1}^T \alpha
+\end{equation}
+ where $\mathbbm{1}$ denotes the vector of ones 
+\item{the first constraint:}
+\begin{equation}
+Gx \preceq h \Rightarrow - \alpha \preceq 0
+\end{equation}
+\item{the second constraint:}
+\begin{equation}
+Ax = b \Rightarrow y^T \alpha = \vec{0}
+\end{equation}
+\end{enumerate}
+
+To sum up:
+\begin{enumerate}
+\item{$P = \left[yy^T * XX^T X\right]$}
+\item{$q = - \mathbbm{1}$}
+\item{$G = -1$}
+\item{$h = 0$}
+\item{$A = y^T$}
+\item{$b = \vec{0}$}
+\end{enumerate}
+\end{document}
