@@ -1,0 +1,176 @@
+\documentclass{article} 
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{} 
+\chead{} 
+\lhead{\bfseries Group: SHPZKN}
+\rhead{\bfseries ML Homework 1} 
+
+\newcommand{\R}{\mathbb{R}}
+
+
+
+
+\begin{document}
+
+
+\section{Problem 1}
+a)\\
+We need to show $$ P(error) \leq \int \frac{2}{\frac{1}{P(w_{1}|x)} + \frac{1}{P(w_{2}|x)}} \times p(x) dx$$
+and according to the equation from question, we know, 
+$$\int P(error|x)\times p(x) dx \leq \int \frac{2}{\frac{1}{P(w_{1}|x)} + \frac{1}{P(w_{2}|x)}} \times p(x) dx$$
+By Fundamental theorem of calculus, we just need to show the equality, 
+$$ P(error|x) \leq \frac{2}{\frac{1}{P(w_{1}|x)} + \frac{1}{P(w_{2}|x)}}$$
+we know, 
+$$ P(error|x) = min[P(w_{1}|x), P(w_{2}|x)]$$
+to show the equality:
+\begin{flalign*}
+\begin{split}
+min[P(w_{1}|x), P(w_{2}|x)] \leq \frac{2}{\frac{1}{P(w_{1}|x)} + \frac{1}{P(w_{2}|x)}} \\
+min[P(w_{1}|x), P(w_{2}|x)] \times\left(\frac{1}{P(w_{1}|x)} + \frac{1}{P(w_{2}|x)}\right) \leq 2 \\
+min\left[1+ \frac{P(w_{1}|x)}{P(w_{2}|x)}, 1+ \frac{P(w_{2}|x)}{P(w_{1}|x)}\right] \leq 2 \\
+min\left[\frac{P(w_{1}|x)}{P(w_{2}|x)},  \frac{P(w_{2}|x)}{P(w_{1}|x)}\right] \leq 1
+\end{split}&
+\end{flalign*}
+
+
+
+we know the decision,   
+\begin{equation*}
+    =
+    \begin{cases}
+      w_{1}, & \text{if}\ {P(w_{1}|x)} \geq {P(w_{2}|x)}\\
+      w_{2}, & \text{if} \ {P(w_{2}|x)} \geq {P(w_{1}|x)}
+    \end{cases}
+  \end{equation*}
+if decided $w_{1}$, 
+$$min\left[\frac{P(w_{1}|x)}{P(w_{2}|x)},  \frac{P(w_{2}|x)}{P(w_{1}|x)}\right] = \frac{P(w_{2}|x)}{P(w_{1}|x)} < 1 $$
+if decided $w_{2}$, 
+$$min\left[\frac{P(w_{1}|x)}{P(w_{2}|x)},  \frac{P(w_{2}|x)}{P(w_{1}|x)}\right] = \frac{P(w_{1}|x)}{P(w_{2}|x)} < 1 $$
+when ${P(w_{1}|x)} = {P(w_{2}|x)}$,
+$$min\left[\frac{P(w_{1}|x)}{P(w_{2}|x)},  \frac{P(w_{2}|x)}{P(w_{1}|x)} \right] = 1 $$\\
+
+Proved.
+
+
+\cleardoublepage
+
+b)\\
+we know,
+$P(w_{1}|x) = \frac{P(x|w_{1})P(w_{1})}{P(x)}$, $P(w_{2}|x) = \frac{P(x|w_{2})P(w_{2})}{P(x)}$, 
+and the equality from a) we rewrite it as below:
+
+$$ P(error) \leq \int \frac{2}{\frac{1}{P(w_{1}|x)} + \frac{1}{P(w_{2}|x)}} \times p(x) dx$$
+$$ P(error) \leq  \int  \frac{2 P(w_{1}|x)P(w_{2}|x)}{P(w_{1}|x) + P(w_{2}|x)} p(x) dx $$
+then we plug th,,e equations of $P(w_{1}|x)$ and $P(w_{2}|x)$ into the inequality :
+$$ P(error) \leq  \int  \frac{2 P(x|w_{1})P(w_{1})P(x|w_{2})P(w_{2})}{P(x|w_{1})P(w_{1}) + P(x|w_{2})P(w_{2})}  dx $$
+plug the values of $P(x|w_{1})$ and $P(x|w_{2})$ into the inequality:
+
+
+\begin{flalign*}
+\begin{split}
+P(error) &\leq \int \frac{2 \pi^{-1} P(w_{1})P(w_{2})}{P(w_{1})(1+ (x+\mu)^2 )+ P(w_{2})(1+ (x+\mu)^2 )} dx\\
+ &\leq \int \frac{2 \pi^{-1} P(w_{1})P(w_{2})}{[P(w_{1}) + P(w_{2}) + (P(w_{1}) + P(w_{2}))\mu)^2 ] + [P(w_{1}) + P(w_{2})]x^2 + [P(w_{1}) - P(w_{2})]\times 2\mu x} dx\\
+&(ps:P(w_{1}) + P(w_{2}) = 1)\\
+&\leq \int \frac{2 \pi^{-1} P(w_{1})P(w_{2})}{(1 + \mu^2) + x^2 + (P(w_{1}) - P(w_{2})) \times 2\mu x} dx 
+\end{split}&
+\end{flalign*}
+
+
+Lemma from question, $$\int \frac{1}{ax^2+bx+c}dx = \frac{2 \pi}{\sqrt{4ac-b^2}} $$, when $b^2 \leq 4ac$, in our case, $4\mu ^2 (P(w_{1}) - P(w_{2}))- 4(1+\mu ^2) < 0$, because $|P(w_{1}) - P(w_{2})| \leq 1 $\\
+So,
+\begin{flalign*}
+\begin{split}
+P(error)& \leq 2 \pi^{-1} P(w_{1})P(w_{2}) \times \frac{2 \pi}{\sqrt{4(1+\mu ^2)- 4\mu^2(P(w_{1})-P(w_{2}))}}\\
+&\leq \frac {4P(w_{1})P(w_{2})} {2\sqrt{1+\mu ^2 - \mu ^2[(P(w_{1})+P(w_{2}))^2 - 4P(w_{1})P(w_{2})]}}\\
+&(ps:P(w_{1}) + P(w_{2}) = 1)\\
+&\leq \frac {2P(w_{1})P(w_{2})}{\sqrt{1 + 4\mu ^2P(w_{1})P(w_{2}) }}
+\end{split}&
+\end{flalign*}
+
+Proved
+
+
+\cleardoublepage
+c)\\
+We know that $P(error) = \int P(error, x) dx$, marginalizing out a random variable from joint distribution is same as sum of all the probablities $P(error, x)$, so if there is no upper bound of error, we can just simply aggregate all the $P(error, x)$. But when x is a continuous variable, we need to consider how long of each bin width to sum them up, it's better to divide the whole interval as small as possible. For the low-dimensional data, it's computationally feasible to realize the calculation, however, for the high-dimensional, we have to not only consider the computation, but also need to "think of " the curse of high- dimensional, by the increasing the dimensions, the accuracy would decrease. 
+
+
+
+\cleardoublepage
+\section{Problem 2}
+a)\\
+As we know, when $P(w_{1}|x) = P(w_{2}|x)$, the error would reach the Maximum value, so:
+
+$$P(w_{1}|x) = \frac{P(x|w_{1})P(w_{1})}{P(x)} = P(w_{2}|x) =  \frac{P(x|w_{2})P(w_{2})}{P(x)}$$
+
+$$\frac{P(w_{1})}{P(w_{2})} = \frac{P(x|w_{2})}{P(x|w_{1})} = \frac{\exp{(\frac{-|x + \mu|}{\sigma})}}{\exp{(\frac{-|x - \mu|}{\sigma})}}$$ 
+then we made logarithums on both sides, we get:
+$$\ln{\left(\frac{P(w_{1})}{P(w_{2})}\right)} = \frac{-|x + \mu|}{\sigma} + \frac{|x - \mu|}{\sigma} $$
+Therefore, the Bayes decision Boundary is the set of points $x \in \R$, that satisfy above the equation, we could set a new set $Z$, $Z \subseteq \R $,
+$$ Z = {\{ x \in \R ||x - \mu|-|x + \mu| = \sigma{[\ln{P(w_{1})} - \ln{P(w_{2})}]}\} }$$\\
+
+
+
+
+
+\noindent{b)}
+
+The optimal decision is always the first class $w_{1}$, it should satisfy: 
+$ P(w_{1}|x) >P(w_{2}|x)$, so we could get the relationship on below,  and the process is same as question a).
+$$\frac{P(x|w_{1})P(w_{1})}{P(x)} > \frac{P(x|w_{2})P(w_{2})}{P(x)}$$
+$$\frac{P(w_{1})}{P(w_{2})} >\frac{P(x|w_{2})}{P(x|w_{1})} = \frac{\exp{(\frac{-|x + \mu|}{\sigma})}}{\exp{(\frac{-|x - \mu|}{\sigma})}}$$ 
+$$\ln{\left(\frac{P(w_{1})}{P(w_{2})}\right)} > \frac{-|x + \mu|}{\sigma} + \frac{|x - \mu|}{\sigma} $$
+we know that $||x|-|y||\leq |x-y|$, therefore, $||x + \mu|-|x + \mu||\leq |2\mu| $ 
+$$\sigma{\ln{\left(\frac{P(w_{1})}{P(w_{2})}\right)}} > 2|\mu| $$
+
+
+\noindent{c)}
+The similar process as a),b)
+$$P(w_{1}|x) = \frac{P(x|w_{1})P(w_{1})}{P(x)} = P(w_{2}|x) =  \frac{P(x|w_{2})P(w_{2})}{P(x)}$$
+
+$$\frac{P(w_{1})}{P(w_{2})} = \frac{P(x|w_{2})}{P(x|w_{1})} = \frac{\exp{(\frac{-(x + \mu)^2}{2\sigma^2})}}{\exp{(\frac{-(x - \mu)^2}{2\sigma^2})}}$$ \\
+
+$$\ln{\left(\frac{P(w_{1})}{P(w_{2})}\right)} = \frac{-(x + \mu)^2}{2\sigma^2} + \frac{(x - \mu)^2}{2\sigma^2} $$
+$$2\sigma^2\ln{\left(\frac{P(w_{1})}{P(w_{2})}\right)} = -(x + \mu)^2 + (x - \mu)^2 $$
+$$2\sigma^2\ln{\left(\frac{P(w_{1})}{P(w_{2})}\right)}  = -4\mu x$$
+If we want to always predict the first class $w_{1}$, so it should satisfy the inequality: 
+$$2\sigma^2\ln{\left(\frac{P(w_{1})}{P(w_{2})}\right)}  > -4\mu x$$
+$$(ps:P(w_{1}|x) >P(w_{2}|x) )$$
+Then, we could deduce that 
+\begin{align*}
+P(w_{1})&>P(w_{2}) \\
+\frac{P(w_{1})}{P(w_{2})}&>1\\
+ln{\left(\frac{P(w_{1})}{P(w_{2})}\right)}& > 0\\
+2\sigma^2\ln{\left(\frac{P(w_{1})}{P(w_{2})}\right)} &>0
+\end{align*}
+Only when $\mu = 0$, the inequality will hold.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
